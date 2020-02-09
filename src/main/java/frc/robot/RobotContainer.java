@@ -7,15 +7,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import frc.robot.Constants.OI;
-import frc.robot.Constants.XboxControllerMap;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.drivecomands.*;
+import frc.robot.commands.dirvecommands.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -26,21 +23,26 @@ import frc.robot.subsystems.*;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final DriveTrain m_driveTrain = new DriveTrain();
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  // Controllers
+  XboxController m_driver = new XboxController(Constants.OI.kDriverControllerPort);
+  XboxController m_operator = new XboxController(Constants.OI.kDriverControllerPort);
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  // Subsystems
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  
+  // Commands
+  private final Command m_defaltDrive = new DefaltDrive(m_robotDrive, m_driver);
+  private final Command m_tankDrive = new TankDrive(m_robotDrive, m_driver);
 
-  XboxController m_driverController = new XboxController(OI.kDriverControllerPort);
+  // Air Compressor
+  Compressor m_compressor = new Compressor(Constants.CAN.kPCM);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_driveTrain.setDefaultCommand(new ArcadeDrive(m_driveTrain, m_driverController));
+
+    m_robotDrive.setDefaultCommand(m_defaltDrive);
+
   }
 
   /**
@@ -49,9 +51,9 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, XboxControllerMap.kA)
-        .toggleWhenPressed(new TankDrive(m_driveTrain, m_driverController));
+    new JoystickButton(m_driver, Constants.XboxControllerMap.kA).toggleWhenPressed(m_tankDrive);
   }
 
   /**
@@ -59,8 +61,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+  // public Command getAutonomousCommand() {
+  // An ExampleCommand will run in autonomous
+  // return m_autoCommand;
+  // }
 }
