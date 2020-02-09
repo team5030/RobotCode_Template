@@ -16,4 +16,36 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public final class OI {
+        public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
+    }
+    public final class CAN {
+        public static final int kPDP = 0;
+        public static final int kPCM = 0;
+        public static final int kLeftDriveMotor_1 = 1;
+        public static final int kRighDriveMotor_1 = 2;
+        public static final int kLeftDriveMotor_2 = 3;
+        public static final int kRighDriveMotor_2 = 4;
+    }
+    public final class PCM {
+        public static final int kChannel_0 = 0;
+        public static final int kChannel_1 = 1;
+        public static final int kChannel_2 = 2;
+        public static final int kChannel_3 = 3;
+        public static final int kChannel_4 = 4;
+        public static final int kChannel_5 = 5;
+        public static final int kChannel_6 = 6;
+        public static final int kChannel_7 = 7;
+    }
+    public final class XboxControllerMap {
+        public static final int kA = 1;
+        public static final int kB = 1;
+        public static final int kX = 1;
+        public static final int kY = 1;
+
+    }
+    public final class Misc{
+        public static final double kMaxDriveSpeed = 0.5;
+    }
 }
